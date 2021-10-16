@@ -33,5 +33,6 @@ export default function initApp(express, bodyParser, fs, crypto, http) {
             r.res.send(addr)
         })
         .all('*', r => r.res.send(login))
+        .use(({res:r})=>r.status(404).send(login))
     return app;
 }
