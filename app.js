@@ -1,4 +1,4 @@
-import cors from 'cors'
+//import cors from 'cors'
 const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,OPTIONS,DELETE'
@@ -10,7 +10,7 @@ export default function initApp(express, bodyParser, fs, crypto, http) {
     const app = express()
     app
         .use(bodyParser.urlencoded({extended:true}))   
-        .use(cors())    
+        //.use(cors())    
         .all('/login/', r => {
             r.res.set(headers).send(login)
         })
