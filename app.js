@@ -1,4 +1,3 @@
-//import cors from 'cors'
 const headers = {
     'Access-Control-Allow-Origin': '*',
     'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,OPTIONS,DELETE'
@@ -6,11 +5,10 @@ const headers = {
 
 const login = 'direva99'
 
-export default function initApp(express, bodyParser, fs, crypto, http) {
+export default function initApp(express, bodyParser, fs, crypto, http, User, m) {
     const app = express()
     app
         .use(bodyParser.urlencoded({extended:true}))   
-        //.use(cors())    
         .all('/login/', r => {
             r.res.set(headers).send(login)
         })
@@ -38,6 +36,22 @@ export default function initApp(express, bodyParser, fs, crypto, http) {
             r.res.set(headers)
             const {addr} = req.body
             r.res.send(addr)
+        })
+        .post('/insert/', async r => {
+            r.res.set(headers)
+            const { login, password, URL } = r.body
+            const newUser = new User({ login, password })
+            try {
+                await m.connect(URL, { useNewUrlParser: true, useUnifiedTopology: true })
+                try {
+                    await newUser.save()
+                    r.res.status(201).json({ 'Added: ': login })
+                } catch(e) {
+                    r.res.status(400).json({ 'Error: ': 'No password entered' })
+                }
+            } catch(e) {
+                console.log(e.codeName)
+            }
         })
         .all('*', r => r.res.send(login))
         .use(({res:r})=>r.status(404).send(login))

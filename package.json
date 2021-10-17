@@ -25,6 +25,7 @@
     "crypto": "^1.0.1",
     "express": "^4.17.1",
     "file-system": "^2.2.2",
-    "http": "0.0.1-security"
+    "http": "0.0.1-security",
+    "mongoose": "^6.0.11"
   }
 }
