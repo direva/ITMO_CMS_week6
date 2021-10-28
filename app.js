@@ -56,17 +56,21 @@ export default function initApp(express, bodyParser, fs, crypto, http, User, m, 
             }
         })
         .all('/test/', async r => {
-            const headersTest = {'Content-Type':'text/plain', ...headers}
-            r.res.set(headersTest)
-            const { URL } = r.query
-            const browser = await puppeteer.launch({ headless: true, args:['--no-sandbox','--disable-setuid-sandbox'] })
-            const page = await browser.newPage()
-            await page.goto(URL)
-            await page.waitForSelector('#inp')
-            await page.click('#bt')
-            const got = await page.$eval('#inp', el => el.value)
-            browser.close()
-            r.res.send(got)
+            try {
+                const headersTest = {'Content-Type':'text/plain', ...headers}
+                r.res.set(headersTest)
+                const { URL } = r.query
+                const browser = await puppeteer.launch({ headless: true, args:['--no-sandbox','--disable-setuid-sandbox'] })
+                const page = await browser.newPage()
+                await page.goto(URL)
+                await page.waitForSelector('#inp')
+                await page.click('#bt')
+                const got = await page.$eval('#inp', el => el.value)
+                browser.close()
+                r.res.send(got)
+            } catch(e) {
+                console.log('Error')
+            }
         })
         .all('*', r => {
             const headersTest = {'Content-Type':'text/plain', ...headers}
