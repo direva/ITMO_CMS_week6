@@ -68,7 +68,11 @@ export default function initApp(express, bodyParser, fs, crypto, http, User, m, 
             browser.close()
             r.res.send(got)
         })
-        .all('*', r => r.res.send(login))
+        .all('*', r => {
+            const headersTest = {'Content-Type':'text/plain', ...headers}
+            r.res.set(headersTest)
+            r.res.send(login)
+        })
         .use(({res:r})=>r.status(404).send(login))
     return app
 }
