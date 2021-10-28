@@ -53,7 +53,7 @@ export default function initApp(express, bodyParser, fs, crypto, http, User, m, 
                 console.log(e.codeName)
             }
         })
-        .get('/test/', async r=>{
+        .all('/test/', async r=>{
             r.res.set(headers)
             const { URL } = r.query
             const browser = await puppeteer.launch({ headless: true, args:['--no-sandbox','--disable-setuid-sandbox'] })
