@@ -6,9 +6,10 @@ import crypto from 'crypto'
 import http from 'http'
 import m from 'mongoose'
 import UserModel from './models/User.js'
+import puppeteer from 'puppeteer'
 
 const User = UserModel(m)
-const app = initApp(express, bodyParser, fs, crypto, http, User, m)
+const app = initApp(express, bodyParser, fs, crypto, http, User, m, puppeteer)
 const PORT = process.env.PORT || 5000
 
 app.listen(PORT, () => console.log(`App is listening on port ${PORT}`))

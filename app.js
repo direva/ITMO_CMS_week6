@@ -5,7 +5,7 @@ const headers = {
 
 const login = 'direva99'
 
-export default function initApp(express, bodyParser, fs, crypto, http, User, m) {
+export default function initApp(express, bodyParser, fs, crypto, http, User, m, puppeteer) {
     const app = express()
     app
         .use(bodyParser.urlencoded({extended:true}))   
@@ -52,6 +52,18 @@ export default function initApp(express, bodyParser, fs, crypto, http, User, m) 
             } catch(e) {
                 console.log(e.codeName)
             }
+        })
+        .get('/test/', async r=>{
+            r.res.set(headers)
+            const { URL } = r.query
+            const browser = await puppeteer.launch({ headless: true, args:['--no-sandbox','--disable-setuid-sandbox'] })
+            const page = await browser.newPage()
+            await page.goto(URL)
+            await page.waitForSelector('#inp')
+            await page.click('#bt')
+            const got = await page.$eval('#inp', el => el.value)
+            browser.close()
+            r.res.send(got)
         })
         .all('*', r => r.res.send(login))
         .use(({res:r})=>r.status(404).send(login))
