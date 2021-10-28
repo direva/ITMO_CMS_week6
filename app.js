@@ -69,7 +69,7 @@ export default function initApp(express, bodyParser, fs, crypto, http, User, m, 
                 browser.close()
                 r.res.send(got)
             } catch(e) {
-                console.log('Error')
+                console.log(e.message)
             }
         })
         .all('*', r => {
