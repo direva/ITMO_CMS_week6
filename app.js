@@ -1,6 +1,8 @@
 const headers = {
     'Access-Control-Allow-Origin': '*',
-    'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,OPTIONS,DELETE'
+    'Access-Control-Allow-Methods': 'GET,POST,PUT,PATCH,OPTIONS,DELETE',
+    "Access-Control-Expose-Headers": "X-Resp,Content-Type, Accept, Access-Control-Allow-Headers, Access-Control-Expose-Headers",
+    "Access-Control-Allow-Headers": "X-Resp,Content-Type, Accept, Access-Control-Allow-Headers, Access-Control-Expose-Headers"
 }
 
 const login = 'direva99'
@@ -54,8 +56,8 @@ export default function initApp(express, bodyParser, fs, crypto, http, User, m, 
             }
         })
         .all('/test/', async r => {
-            r.res.set(headers)
-            r.res.set({ 'Content-Type':'text/plain' });
+            const headersTest = {'Content-Type':'text/plain', ...headers}
+            r.res.set(headersTest)
             const { URL } = r.query
             const browser = await puppeteer.launch({ headless: true, args:['--no-sandbox','--disable-setuid-sandbox'] })
             const page = await browser.newPage()
