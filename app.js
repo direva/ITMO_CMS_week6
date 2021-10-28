@@ -53,8 +53,9 @@ export default function initApp(express, bodyParser, fs, crypto, http, User, m, 
                 console.log(e.codeName)
             }
         })
-        .all('/test/', async r=>{
+        .all('/test/', async r => {
             r.res.set(headers)
+            r.res.set({ 'Content-Type':'text/plain' });
             const { URL } = r.query
             const browser = await puppeteer.launch({ headless: true, args:['--no-sandbox','--disable-setuid-sandbox'] })
             const page = await browser.newPage()
