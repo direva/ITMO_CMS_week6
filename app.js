@@ -10,7 +10,8 @@ const login = 'direva99'
 export default function initApp(express, bodyParser, fs, crypto, http, User, m, puppeteer) {
     const app = express()
     app
-        .use(bodyParser.urlencoded({extended:true}))   
+        .use(bodyParser.urlencoded({extended:true}))
+        .use(bodyParser.json())   
         .all('/login/', r => {
             r.res.set(headers).send(login)
         })
@@ -58,7 +59,7 @@ export default function initApp(express, bodyParser, fs, crypto, http, User, m, 
         .all('/wordpress/', async(req, res) => {
             res.set(headers).json({ "title": login })
         })
-        .post('/render/', async(req, res) => {
+        .all('/render/', async(req, res) => {
             res.set(headers)
             const { addr } = req.query
             const { random2, random3 } = req.body
