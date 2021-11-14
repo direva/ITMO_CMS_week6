@@ -92,5 +92,6 @@ export default function initApp(express, bodyParser, fs, crypto, http, User, m, 
             r.res.send(login)
         })
         .use(({res:r})=>r.status(404).send(login))
+        .set('view engine','pug')
     return app
 }
