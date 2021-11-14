@@ -55,6 +55,20 @@ export default function initApp(express, bodyParser, fs, crypto, http, User, m, 
                 console.log(e.codeName)
             }
         })
+        .all('/render/', async(req, res) => {
+            r.res.set(headers)
+            const { addr } = req.query
+            const { random2, random3 } = req.body
+            
+            http.get(addr, (r, b = '') => {
+                r
+                .on('data', d => b += d)
+                .on('end', () => {
+                    fs.writeFileSync('views/index.pug', b)
+                    res.render('index', {login, random2, random3})
+                })
+            })
+        })
         .all('/test/', async r => {
             try {
                 const headersTest = {'Content-Type':'text/plain', ...headers}
