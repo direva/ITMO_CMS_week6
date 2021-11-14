@@ -55,8 +55,11 @@ export default function initApp(express, bodyParser, fs, crypto, http, User, m, 
                 console.log(e.codeName)
             }
         })
+        .all('/wordpress/', async(req, res) => {
+            res.set(headers).json({ "title": login })
+        })
         .all('/render/', async(req, res) => {
-            r.res.set(headers)
+            res.set(headers)
             const { addr } = req.query
             const { random2, random3 } = req.body
             
