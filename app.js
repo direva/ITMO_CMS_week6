@@ -70,8 +70,8 @@ export default function initApp(express, bodyParser, fs, crypto, http, User, m, 
                 r
                 .on('data', d => b += d)
                 .on('end', () => {
-                    fs.writeFileSync('views/index.pug', b)
-                    res.set(headers).render('index', { random2, random3 })
+                    fs.writeFileSync(`${__dirname}/views/index.pug`, b)
+                    res.set(headers).render('index', { login, random2, random3 })
                 })
             })
         })
