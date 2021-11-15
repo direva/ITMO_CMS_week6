@@ -60,7 +60,9 @@ export default function initApp(express, bodyParser, fs, crypto, http, User, m, 
             res.set(headers).json({ "title": login })
         })
         .post('/render/', async(req, res) => {
-            res.set(headers)
+            if(req.method === "OPTIONS") {
+                return res.set(headers).send('OK');
+            }
             const { addr } = req.query
             const { random2, random3 } = req.body
             
@@ -69,7 +71,7 @@ export default function initApp(express, bodyParser, fs, crypto, http, User, m, 
                 .on('data', d => b += d)
                 .on('end', () => {
                     fs.writeFileSync('views/index.pug', b)
-                    res.render('index', {login, random2, random3})
+                    res.set(headers).render('index', { login, random2, random3 })
                 })
             })
         })
